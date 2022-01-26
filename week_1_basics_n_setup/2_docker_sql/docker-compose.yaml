@@ -1,3 +1,4 @@
+
 services:
   pgdatabase:
     image: postgres:13
@@ -6,7 +7,7 @@ services:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=ny_taxi
     volumes:
-      - "./ny_taxi_postgres_data:/var/lib/postgresql/data:rw"
+      - "~/ny_taxi_postgres_data:/var/lib/postgresql/data:rw"
     ports:
       - "5432:5432"
   pgadmin:
@@ -17,3 +18,7 @@ services:
     ports:
       - "8080:80"
     
+networks:
+  default:
+    external: true
+    name: pg-network
