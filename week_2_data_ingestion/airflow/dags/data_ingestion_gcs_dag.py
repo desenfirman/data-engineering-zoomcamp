@@ -49,6 +49,7 @@ def upload_to_gcs(bucket, object_name, local_file):
 
     blob = bucket.blob(object_name)
     blob.upload_from_filename(local_file)
+    return f"gs://{BUCKET}/{object_name}"
 
 
 default_args = {
@@ -70,14 +71,14 @@ with DAG(
 
     download_dataset_task = BashOperator(
         task_id="download_dataset_task",
-        bash_command=f"curl -sSL {dataset_url} > {path_to_local_home}/{dataset_file}"
+        bash_command=f"curl -SL {dataset_url} > {path_to_local_home}/dags/{dataset_file}"
     )
 
     format_to_parquet_task = PythonOperator(
         task_id="format_to_parquet_task",
         python_callable=format_to_parquet,
         op_kwargs={
-            "src_file": f"{path_to_local_home}/{dataset_file}",
+            "src_file": f"{path_to_local_home}/dags/{dataset_file}",
         },
     )
 
@@ -88,7 +89,7 @@ with DAG(
         op_kwargs={
             "bucket": BUCKET,
             "object_name": f"raw/{parquet_file}",
-            "local_file": f"{path_to_local_home}/{parquet_file}",
+            "local_file": f"{path_to_local_home}/dags/{parquet_file}",
         },
     )
 
@@ -102,7 +103,7 @@ with DAG(
             },
             "externalDataConfiguration": {
                 "sourceFormat": "PARQUET",
-                "sourceUris": [f"gs://{BUCKET}/raw/{parquet_file}"],
+                "sourceUris": ["{{ ti.xcom_pull(task_ids='local_to_gcs_task', key='return_value') }}"],
             },
         },
     )

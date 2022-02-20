@@ -62,8 +62,8 @@ x-airflow-common:
     AIRFLOW_CONN_GOOGLE_CLOUD_DEFAULT: 'google-cloud-platform://?extra__google_cloud_platform__key_path=/.google/credentials/google_credentials.json'
 
     # TODO: Please change GCP_PROJECT_ID & GCP_GCS_BUCKET, as per your config
-    GCP_PROJECT_ID: 'pivotal-surfer-336713'
-    GCP_GCS_BUCKET: 'dtc_data_lake_pivotal-surfer-336713'
+    GCP_PROJECT_ID: 'sustained-hold-325323'
+    GCP_GCS_BUCKET: 'dtc_data_lake_sustained-hold-325323'
 
   volumes:
     - ./dags:/opt/airflow/dags
@@ -151,6 +151,9 @@ services:
       # See https://airflow.apache.org/docs/docker-stack/entrypoint.html#signal-propagation
       DUMB_INIT_SETSID: "0"
     restart: always
+    ports:
+      - 8793:8793
+
     depends_on:
       <<: *airflow-common-depends-on
       airflow-init:
