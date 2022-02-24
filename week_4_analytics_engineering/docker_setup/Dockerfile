@@ -57,34 +57,33 @@ ENTRYPOINT ["dbt"]
 # dbt-core
 ##
 FROM base as dbt-core
-RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/${dbt_core_ref}#egg=dbt-core&subdirectory=core"
+RUN python -m pip install --no-cache-dir dbt-core==1.0.1
 
 ##
 # dbt-postgres
 ##
 FROM base as dbt-postgres
-RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/${dbt_postgres_ref}#egg=dbt-postgres&subdirectory=plugins/postgres"
+RUN python -m pip install --no-cache-dir dbt-postgres==1.0.1
 
 
 ##
 # dbt-redshift
 ##
 FROM base as dbt-redshift
-RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/${dbt_redshift_ref}#egg=dbt-redshift"
-
+RUN python -m pip install --no-cache-dir dbt-redshift==1.0.0
 
 ##
 # dbt-bigquery
 ##
 FROM base as dbt-bigquery
-RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/${dbt_bigquery_ref}#egg=dbt-bigquery"
+RUN python -m pip install --no-cache-dir dbt-bigquery==1.0.0
 
 
 ##
 # dbt-snowflake
 ##
 FROM base as dbt-snowflake
-RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/${dbt_snowflake_ref}#egg=dbt-snowflake"
+RUN python -m pip install --no-cache-dir dbt-snowflake==1.0.0
 
 ##
 # dbt-spark
@@ -102,7 +101,7 @@ RUN apt-get update \
     /var/lib/apt/lists/* \
     /tmp/* \
     /var/tmp/*
-RUN python -m pip install --no-cache-dir "git+https://github.com/dbt-labs/${dbt_spark_ref}#egg=dbt-spark[${dbt_spark_version}]"
+RUN python -m pip install --no-cache-dir dbt-spark==1.0.0
 
 
 ##
