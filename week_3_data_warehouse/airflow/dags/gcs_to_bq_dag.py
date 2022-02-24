@@ -38,7 +38,7 @@ with DAG(
         move_files_gcs_task = GCSToGCSOperator(
             task_id=f'move_{colour}_{DATASET}_files_task',
             source_bucket=BUCKET,
-            source_object=f'{INPUT_PART}/{colour}_{DATASET}*.{INPUT_FILETYPE}',
+            source_object=f'{INPUT_PART}/{colour}/{colour}_{DATASET}*.{INPUT_FILETYPE}',
             destination_bucket=BUCKET,
             destination_object=f'{colour}/{colour}_{DATASET}',
             move_object=True
@@ -55,7 +55,7 @@ with DAG(
                 "externalDataConfiguration": {
                     "autodetect": "True",
                     "sourceFormat": f"{INPUT_FILETYPE.upper()}",
-                    "sourceUris": [f"gs://{BUCKET}/{colour}/*"],
+                    "sourceUris": [f"gs://{BUCKET}/{colour}/*.parquet"],
                 },
             },
         )

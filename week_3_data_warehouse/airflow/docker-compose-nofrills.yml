@@ -22,10 +22,10 @@ services:
             - .env
         volumes:
             - ./dags:/opt/airflow/dags
-            - ./logs:/opt/airflow/logs
+            - /home/desenfirman/airflow-logs:/opt/airflow/logs
             - ./plugins:/opt/airflow/plugins
             - ./scripts:/opt/airflow/scripts
-            - ~/.google/credentials/:/.google/credentials:ro
+            - /home/desenfirman/.google/credentials/:/.google/credentials
 
 
     webserver:
@@ -39,9 +39,9 @@ services:
             - .env
         volumes:
             - ./dags:/opt/airflow/dags
-            - ./logs:/opt/airflow/logs
+            - /home/desenfirman/airflow-logs:/opt/airflow/logs
             - ./plugins:/opt/airflow/plugins
-            - ~/.google/credentials/:/.google/credentials:ro
+            - /home/desenfirman/.google/credentials/:/.google/credentials:ro
             - ./scripts:/opt/airflow/scripts
 
         user: "${AIRFLOW_UID:-50000}:0"
